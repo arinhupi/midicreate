@@ -17,6 +17,7 @@
 #include "MidiConsts.h"
 #include "MidiSection.h"
 #include "DrumPattern.h"
+#include "DrumInstruments.h"
 
 typedef struct {
 	std::string pattern;
@@ -24,7 +25,6 @@ typedef struct {
 	int tempo;
 	std::string fillPattern;
 	int fillFreq;
-	bool intro;
 } ProgramArgs;
 
 void createDrumTest(std::string filename);
@@ -36,6 +36,7 @@ void usage();
 int main(int argc, char** argv){
 	execUserRequest(argc, argv);
 	// createDrumTest("drumtest.mid");
+	return 0;
 }
 
 void execUserRequest(int argc, char** argv){
@@ -62,12 +63,12 @@ void execUserRequest(int argc, char** argv){
 	// add drum track sections
 	for (auto section : pArgsVec){
 		DrumPattern drumPattern(section.pattern);
-		MidiSection midiSec1(section.tempo, drumPattern, section.nBars);
+		MidiSection midiSec(section.tempo, drumPattern, section.nBars);
 		if (!section.fillPattern.empty()){
 			DrumPattern fillPattern(section.fillPattern);
-			midiSec1.addToEveryNth(section.fillFreq, fillPattern);
+			midiSec.addToEveryNth(section.fillFreq, fillPattern);
 		}
-		mData.addDrumSection(DRUM_CHANNEL, midiSec1, drumPattern.getPatternLength());
+		mData.addDrumSection(DRUM_CHANNEL, midiSec, drumPattern.getPatternLength());
 	}
 	mData.writeToFileWithTrackEnding(myFile);
 	myFile.close();
@@ -86,10 +87,13 @@ bool findArguments(int argc, char* argv[], std::vector<ProgramArgs>& pArgVec, st
 				pArgs.fillFreq = atoi(argv[i+5]);
 			}
 			pArgVec.push_back(pArgs);
+			if (pArgVec.size() > 1)
+				fnameStream << "-";
 			fnameStream << pArgs.pattern << "-" << pArgs.nBars << "-" << pArgs.tempo;
 		}
 		if (std::string(argv[i]) == "-d") {
-			DrumPattern::dispDrumInstruments();
+			//DrumPattern::dispDrumInstruments();
+			DrumInstruments::dispDrumInstruments();
 		}
 	}
 	midFile = fnameStream.str();
@@ -101,16 +105,16 @@ void usage(){
 	std::cout << "Usage: \n";
 	std::cout << "midicreate [-s patternName nBars tempo [fillPatternName fillPatternFrequency]] [-s ...] [-d]\n\n";
 	std::cout << "-s, starts section parameters\n";
-	std::cout << "    patternName (string), must be found from patterns.conf file\n";
-	std::cout << "    nBars (numerical), number of patterns (i.e. bars) per section\n";
-	std::cout << "    tempo (numerical), tempo as bpm, e.g. 120\n";
-	std::cout << "    fillPatternName (string, optional), must be found from patterns.conf file\n";
-	std::cout << "    fillPatternFrequency (numerical), must be present if fillPattern is given\n";
+	std::cout << "    patternName (str), must be found from patterns.conf file\n";
+	std::cout << "    nBars (num), number of patterns (i.e. bars) per section\n";
+	std::cout << "    tempo (num), tempo as bpm, e.g. 120\n";
+	std::cout << "    fillPatternName (str, optional), must be found from patterns.conf file\n";
+	std::cout << "    fillPatternFrequency (num), must be present if fillPattern is given\n";
 	std::cout << "-d, optional; display drum instrument names which can be used in pattern.conf\n";
 	std::cout << "Program generates the output (midi) file name based on pattern name\n\n";
 	std::cout << "Example: Create a drum track consisting of two sections, both 12 bars long.\n";
 	std::cout << "        Tempo is 110 bpm. Using fill pattern on every fourth bar.\n";
-	std::cout << "        midicreate -s rock2 12 110 fill1 4 -s rock2 12 110 fill2 4 -i\n\n";
+	std::cout << "        midicreate -s beat2 12 110 fill1 4 -s rock2 12 110 fill2 4\n\n";
 }
 
 void createDrumTest(std::string filename) {

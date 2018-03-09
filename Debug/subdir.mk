@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../DrumInstruments.cpp \
 ../DrumPattern.cpp \
 ../MTrkEvent.cpp \
 ../MidiFileData.cpp \
@@ -12,6 +13,7 @@ CPP_SRCS += \
 ../main.cpp 
 
 OBJS += \
+./DrumInstruments.o \
 ./DrumPattern.o \
 ./MTrkEvent.o \
 ./MidiFileData.o \
@@ -20,6 +22,7 @@ OBJS += \
 ./main.o 
 
 CPP_DEPS += \
+./DrumInstruments.d \
 ./DrumPattern.d \
 ./MTrkEvent.d \
 ./MidiFileData.d \

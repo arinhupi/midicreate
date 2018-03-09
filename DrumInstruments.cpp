@@ -6,10 +6,12 @@
  */
 
 #include "DrumInstruments.h"
+#include <map>
 #include <iostream>
 
+namespace DrumInstruments{
 
-std::map<std::string, Byte> _drumMap2 = {
+std::map<std::string, Byte> _drumMap = {
 		{"bass", DRUM_BASS1},
 		{"bass2", DRUM_BASS2},
 		{"side_stick", DRUM_SIDE_STICK},
@@ -60,12 +62,11 @@ std::map<std::string, Byte> _drumMap2 = {
 };
 
 
-namespace DrumInstruments{
 
 Byte getInstrument(const std::string& instrName) {
 	Byte drumValue;
 	try {
-		drumValue = _drumMap2.at(instrName);
+		drumValue = _drumMap.at(instrName);
 	}
 	catch (...) {
 		std::cout << "Drum instrument " << instrName << " not found\n";
@@ -77,12 +78,17 @@ Byte getInstrument(const std::string& instrName) {
 void dispDrumInstruments() {
 	std::cout << "Available percussion instruments based on the General Midi standard.\n";
 	std::cout << "Use these when adding new drum patterns to patterns.conf file.\n\n";
-	for (auto i : _drumMap2)
+	for (auto i : _drumMap)
 		std::cout << i.first << "  ";
 
 	std::cout << "\n\n";
 }
 
 }
+
+
+
+
+
 
 

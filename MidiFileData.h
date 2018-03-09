@@ -31,6 +31,7 @@ private:
 	bool getNote(const std::string& melodyString, unsigned int& position, Byte& noteValue, int& noteLength);
 	int _length;
 	Byte* _data;
+	int _bufSize;
 	int _lastSilence; // relevant if last note of previous pattern is silence
 };
 

@@ -25,7 +25,8 @@ void MidiSection::addBarToPattern(int bar,DrumPattern& subPattern) {
 	_patternVec.at(bar).addToPattern(subPattern);
 }
 
-void MidiSection::replaceBarInPattern(int bar, int timeFromBarStart, DrumPattern& subPattern) {
+void MidiSection::replaceBarInPattern(int bar, DrumPattern& subPattern) {
+	int timeFromBarStart = subPattern.getHitAt(0).timeFromStart;
 	_patternVec.at(bar).replacePattern(timeFromBarStart, subPattern);
 }
 
@@ -46,6 +47,13 @@ void MidiSection::addToEveryNth(int nth, DrumPattern& addPattern) {
 	for (unsigned int i = 0; i < _patternVec.size(); i++){
 		if ((i+1) % nth == 0)
 			addBarToPattern(i, addPattern);
+	}
+}
+
+void MidiSection::replaceInEveryNth(int nth, DrumPattern& repPattern) {
+	for (unsigned int i = 0; i < _patternVec.size(); i++){
+		if ((i+1) % nth == 0)
+			replaceBarInPattern(i, repPattern);
 	}
 }
 

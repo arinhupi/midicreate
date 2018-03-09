@@ -13,25 +13,32 @@
 
 
 MidiFileData::MidiFileData() {
-	_data = new Byte[10000];
+	_data = new Byte[50000];
+	_bufSize = 50000;
+	_length = 0;
+	_lastSilence = 0;
+}
+
+MidiFileData::MidiFileData(int maxSize) {
+	_data = new Byte[maxSize];
+	_bufSize = maxSize;
 	_length = 0;
 	_lastSilence = 0;
 }
 
 MidiFileData::~MidiFileData() {
-	// TODO Auto-generated destructor stub
-}
-
-MidiFileData::MidiFileData(int maxSize) {
-	_data = new Byte[maxSize];
-	_length = 0;
-	_lastSilence = 0;
+	delete []_data;
 }
 
 void MidiFileData::addEvent(MTrkEvent& mtrkEvent) {
+	static int fileOverflow = 0;
 	int eventSize = mtrkEvent.getEventSize();
-	std::memcpy(&_data[_length], mtrkEvent.getEventData(), eventSize);
-	_length += eventSize;
+	if (_length + eventSize + 10 < _bufSize){
+		std::memcpy(&_data[_length], mtrkEvent.getEventData(), eventSize);
+		_length += eventSize;
+	}
+	else if (++fileOverflow == 1 )
+		std::cout << "Incomplete output file due to buffer overflow in MidiFileData::addEvent.\n";
 }
 
 void MidiFileData::addDrumPattern(DrumPattern& drumPattern, int patternLength) {
@@ -42,7 +49,7 @@ void MidiFileData::addDrumPattern(DrumPattern& drumPattern, int patternLength) {
 	int delay;
 	for (int i = 0; i < drumPattern.getSize(); i++){
 		drumHit = drumPattern.getHitAt(i);
-		delay = (drumHit.timeFromStart - prevTime + _lastSilence) * 4; // 1/8 note len is 48 ticks
+		delay = (drumHit.timeFromStart - prevTime + _lastSilence) * 4; // 1/4 note len is 96 ticks
 		if (drumHit.timeFromStart > prevTime){
 			if (setActiveNotesOff(DRUM_CHANNEL, activeNotes, delay))
 				delay = 0;
@@ -76,7 +83,7 @@ void MidiFileData::addTempoTrack(int tempo, std::string text) {
 	addEvent(event);
 	event.metaTimeSignature(4, 2, 0x30, 0x08);
 	addEvent(event);
-	event.metaKeySignature(KEY_C, KEY_MAJOR);
+	event.metaKeySignature(KEY_C, KEY_MAJOR); // doesn't matter with drum track
 	addEvent(event);
 }
 

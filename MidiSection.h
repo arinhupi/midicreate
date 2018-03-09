@@ -17,9 +17,10 @@ public:
 	MidiSection(int tempo, DrumPattern pattern, int lengthBars);
 	MidiSection(int tempo, std::string pattern, int lengthBars);
 	void addBarToPattern(int bar, DrumPattern& subPattern);
-	void replaceBarInPattern(int bar, int timeFromBarStart, DrumPattern& subPattern);
+	void replaceBarInPattern(int bar, DrumPattern& subPattern);
 	void addTogether(MidiSection& section2);
 	void addToEveryNth(int nth, DrumPattern& addPattern);
+	void replaceInEveryNth(int nth, DrumPattern& repPattern);
 	DrumPattern& getPatternAt(int i);
 	void setVolume(Byte instrument, Byte newVolume);
 	int getSize() const { return _patternVec.size(); }

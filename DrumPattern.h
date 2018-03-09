@@ -31,7 +31,6 @@ public:
 	void setVolume(int instrument, int newVolume);
 	DrumHit& getHitAt(int i);
 	int getSize(){return _drumHitVec.size();};
-	static void dispDrumInstruments();
 
 	int getPatternLength() const {
 		return _patternLength;
@@ -40,10 +39,8 @@ public:
 private:
 	bool findFromConfigFile(std::string pattern);
 	void getPatternInstruments(std::ifstream& ifile);
-	Byte getInstrument(const std::string& instrName);
 	std::vector<DrumHit> _drumHitVec;
 	int _patternLength;
-	static std::map<std::string, Byte> _drumMap;
 };
 
 #endif /* DRUMPATTERN_H_ */
