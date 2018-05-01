@@ -10,6 +10,7 @@
 #include <cstring>
 #include <iostream>
 #include <stack>
+#include <cstdint>
 
 
 MidiFileData::MidiFileData() {
@@ -116,8 +117,8 @@ void MidiFileData::writeToFileWithTrackEnding(std::ostream& ofile) {
 	event.trackEnd(10); addEvent(event);
 	// then write track hdr and data to file
 	char trackData[8] = {'M', 'T', 'r', 'k'};
-	unsigned long trackLength = __builtin_bswap32(_length);
-	std::memcpy(&trackData[4], &trackLength, sizeof trackLength);
+	uint32_t trackLength; // unsigned long changed to fixed sized uint32_t
+	std::memcpy(&trackData[4], &trackLength, 4);
 	ofile.write(trackData, 8);
 	ofile.write((char*)_data, _length);
 	_length = 0;

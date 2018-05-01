@@ -91,10 +91,8 @@ bool findArguments(int argc, char* argv[], std::vector<ProgramArgs>& pArgVec, st
 				fnameStream << "-";
 			fnameStream << pArgs.pattern << "-" << pArgs.nBars << "-" << pArgs.tempo;
 		}
-		if (std::string(argv[i]) == "-d") {
-			//DrumPattern::dispDrumInstruments();
+		if (std::string(argv[i]) == "-d")
 			DrumInstruments::dispDrumInstruments();
-		}
 	}
 	midFile = fnameStream.str();
 	return pArgVec.size() ? true : false;
