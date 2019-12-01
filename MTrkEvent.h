@@ -12,27 +12,27 @@
 
 class MTrkEvent {
 public:
-	MTrkEvent();
-	virtual ~MTrkEvent();
-	void noteOn(int interval, int channel, int note, int velocity);
-	void programChange(int interval, int channel, int newProgram);
-	void trackEnd(int interval);
-	void metaTimeSignature(int numerator, int denominator, int clocksPerTick, int nrOf32thNotesPer24Clocks);
-	void metaKeySignature(int sharpsFlats, int majorMinor);
-	void metaSetTempo(int bpm);
-	void metaTextEvent(std::string text);
-	const Byte* getEventData() const {
-		return _eventData;
-	}
+    MTrkEvent();
+    virtual ~MTrkEvent();
+    void noteOn(int interval, int channel, int note, int velocity);
+    void programChange(int interval, int channel, int newProgram);
+    void trackEnd(int interval);
+    void metaTimeSignature(int numerator, int denominator, int clocksPerTick, int nrOf32thNotesPer24Clocks);
+    void metaKeySignature(int sharpsFlats, int majorMinor);
+    void metaSetTempo(int bpm);
+    void metaTextEvent(std::string text);
+    const Byte* getEventData() const {
+        return m_eventData;
+    }
 
-	int getEventSize() const {
-		return _eventSize;
-	}
+    int getEventSize() const {
+        return m_eventSize;
+    }
 
 private:
-	int _eventSize;
-	Byte _eventData[50];
-	int convertToVLV(int value, int startIndex); // return vlv size in bytes
+    int m_eventSize;
+    Byte m_eventData[50];
+    int convertToVLV(int value, int startIndex); // return vlv size in bytes
 };
 
 #endif /* MTRKEVENT_H_ */

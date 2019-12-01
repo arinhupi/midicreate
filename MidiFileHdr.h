@@ -16,15 +16,15 @@
 
 class MidiFileHdr {
 public:
-	MidiFileHdr();
-	MidiFileHdr(int format, int tracks);
-	MidiFileHdr(int format, int tracks, int division);
-	virtual ~MidiFileHdr();
-	void writetoFile(std::ostream& ofile);
+    MidiFileHdr();
+    MidiFileHdr(int format, int tracks);
+    MidiFileHdr(int format, int tracks, int division);
+    virtual ~MidiFileHdr();
+    void writetoFile(std::ostream& ofile);
 private:
-	short _format;
-	short _tracks;
-	short _division; // ticks per quarter note
+    short m_format;
+    short m_tracks;
+    short m_division; // ticks per quarter note
 };
 
 #endif /* MIDIFILEHDR_H_ */

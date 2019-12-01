@@ -78,9 +78,9 @@
 
 class MidiConsts {
 public:
-	MidiConsts();
-	virtual ~MidiConsts();
-	char getNoteNumber(int octave, std::string noteName);
+    MidiConsts();
+    virtual ~MidiConsts();
+    char getNoteNumber(int octave, std::string noteName);
 };
 
 #endif /* MIDICONSTS_H_ */
