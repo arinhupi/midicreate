@@ -126,7 +126,7 @@ void MidiFileData::writeToFileWithTrackEnding(std::ostream& ofile)
     event.trackEnd(10); addEvent(event);
     // then write track hdr and data to file
     char trackData[8] = {'M', 'T', 'r', 'k'};
-    uint32_t trackLength; // unsigned long changed to fixed sized uint32_t
+    uint32_t trackLength = __builtin_bswap32(m_length);
     std::memcpy(&trackData[4], &trackLength, 4);
     ofile.write(trackData, 8);
     ofile.write((char*)m_data, m_length);

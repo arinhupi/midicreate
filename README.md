@@ -3,7 +3,7 @@ Create a midi file for drum/percussion track.
 
 Drum track consists of 1 or more sections.
 Each section contains 1 or more rhythm patterns (=bars) and tempo information.
-Pattern contains the instrument-time-volume information. Default patterns are defined in configuration file patterns.conf. Users are encouraged to add new patters. More information in comment lines of patterns.conf.
+Pattern contains the instrument-time-volume information. Default patterns are defined in configuration file patterns.conf. Users are encouraged to add their own custom patters. More information in comment section of patterns.conf.
 
 Use midi player (e.g. timidity) to play the file. Use sequencer program (e.g. Rosegarden or Qtracktor) to import the created midi track into a music composition.
 

@@ -82,6 +82,8 @@ bool findArguments(int argc, char* argv[], std::vector<ProgramArgs>& pArgVec, st
     for (int i = 1; i < argc; i++) {
         ProgramArgs pArgs;
         if (std::string(argv[i]) == "-s"){
+            if (argc < i+4)
+                return false;
             pArgs.pattern = argv[i+1];
             pArgs.nBars = atoi(argv[i+2]);
             pArgs.tempo = atoi(argv[i+3]);
